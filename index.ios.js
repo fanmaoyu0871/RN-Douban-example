@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 
 import BookListView from './App/Components/Book/BookListView';
+import MovieListView from './App/Components/Movie/MovieListView';
 import NavigationBarRouteMapperavBar from './App/Common/NavBar';
 
 //hide status bar
@@ -54,7 +55,17 @@ export default class DoubanApp extends Component {
               onPress={()=>{this.setState({tabIndex:1})}}
               selected={this.state.tabIndex === 1}
               title='电影'>
-              <View></View>
+              <Navigator initialRoute={{name:'movie_home', component:MovieListView, params:{title:'电影'}}}
+                  configureScene={(route) => {
+                      return Navigator.SceneConfigs.FloatFromBottom;
+                  }}
+                  renderScene={(route, navigator) => {
+                      let Component = route.component;
+                      return <Component {...route.params} navigator={navigator} />
+                  }}
+                  navigationBar={<Navigator.NavigationBar style={{backgroundColor:'white'}} 
+                                  routeMapper={NavigationBarRouteMapperavBar}/>}
+              />
             </TabBarIOS.Item>
             <TabBarIOS.Item icon={require('image!about')} 
               onPress={()=>{this.setState({tabIndex:2})}}
